@@ -13,9 +13,8 @@ module.exports = {
   module: {
     rules: [
       {
-        //kako ce se obraditi fajlovi
-        test: /\.js$/, //regularni izraz $-ako se string zavrsava sa tom reci
-        exclude: /(node_modules|bower_components)/, //da ne trazi node_modules jer ima mng fajlova
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
         use: {
           loader: "babel-loader",
           options: {
