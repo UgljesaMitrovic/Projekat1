@@ -1,8 +1,11 @@
 const path = require("path");
 module.exports = {
   mode: "development",
-  entry: ["@babel/polyfill", "./src/index.js"],
+  entry: ["@babel/polyfill", "./src/index.ts"],
   devtool: "inline-source-map",
+  resolve: {
+    extensions: [".ts", ".js", ".json"],
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
@@ -21,6 +24,10 @@ module.exports = {
             presets: ["@babel/preset-env"],
           },
         },
+      },
+      {
+        test: /\.ts$/,
+        loader: "ts-loader",
       },
     ],
   },

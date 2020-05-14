@@ -1,5 +1,5 @@
 import { Takmicar } from "./models/takmicar";
-import { ucitavajKviz } from "./services.js";
+import { ucitavajKviz } from "./services";
 import { fromEvent } from "rxjs";
 import { debounceTime, map, filter, switchMap } from "rxjs/operators";
 
@@ -23,7 +23,7 @@ var string = "Ucitavanje ";
 fromEvent(inputIme, "input")
   .pipe(
     debounceTime(500),
-    map((ev) => ev.target.value),
+    map((ev: any) => ev.target.value),
     filter((ime) => ime.length > 2),
     switchMap(() => ucitavajKviz())
   )
@@ -41,7 +41,7 @@ fromEvent(inputIme, "input")
     string = labelaUcitavanje.innerHTML;
   });
 
-function crtajTakmicare(ime, takmicari) {
+function crtajTakmicare(ime: string, takmicari: Array<Takmicar>) {
   takmicari.forEach((takmicar) => {
     if (takmicar.tip == "Covek") takmicar.ime = ime;
     takmicar.crtaj(document.body);
