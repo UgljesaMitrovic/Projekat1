@@ -1,7 +1,13 @@
-import { from, interval, zip, Subject } from "rxjs";
+import {
+  from,
+  interval,
+  zip,
+  Subject,
+  BehaviorSubject,
+  SubscribableOrPromise,
+} from "rxjs";
 import { takeUntil, map } from "rxjs/operators";
 
-var emiterZaUcitavanjeKviza = new Subject();
 export function izbrojPitanja() {
   return fetch("http://localhost:3000/pitanja").then((response) => {
     if (response.ok) {
@@ -10,7 +16,9 @@ export function izbrojPitanja() {
   });
 }
 
-export function nadjiPitanje(id, bs) {
+var emiterZaUcitavanjeKviza = new Subject();
+
+export function nadjiPitanje(id: number, bs: BehaviorSubject<any>) {
   if (id == 1) {
     emiterZaUcitavanjeKviza.next("Stopiraj ucitavanje");
   }
@@ -41,7 +49,7 @@ export function resetujPoene() {
 }
 export function ucitavajKviz() {
   return interval(100).pipe(
-    map((x) => (x = "/")),
+    map((x: any) => (x = "/")),
     takeUntil(emiterZaUcitavanjeKviza)
   );
 }

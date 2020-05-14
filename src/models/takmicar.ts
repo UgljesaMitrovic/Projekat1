@@ -4,24 +4,31 @@ import {
   dodajPoene,
   resetujPoene,
   izbrojPitanja,
-} from "../services.js";
-import { odluciPobednika } from "../index.js";
-import { fromEvent, BehaviorSubject, merge } from "rxjs";
+} from "../services";
+import { odluciPobednika } from "../index";
+import { fromEvent, BehaviorSubject, merge, Observable } from "rxjs";
 import { take } from "rxjs/operators";
 
 export class Takmicar {
-  constructor(id, ime, tip) {
+  id: number;
+  ime: string;
+  brPoena: number;
+  bsPoeni: BehaviorSubject<string>;
+  bsPlusPoeni: BehaviorSubject<string>;
+  bsMerge: Observable<string>;
+  tip: string;
+  constructor(id: number, ime: string, tip: string) {
     this.id = id;
     this.ime = ime;
     this.brPoena = 0;
-    this.bsPoeni = new BehaviorSubject();
-    this.bsPlusPoeni = new BehaviorSubject();
+    this.bsPoeni = new BehaviorSubject<string>("");
+    this.bsPlusPoeni = new BehaviorSubject<string>("");
     this.bsMerge = merge(this.bsPoeni, this.bsPlusPoeni);
     this.tip = tip;
   }
-  crtaj(host) {
+  crtaj(host: HTMLElement) {
     var idPitanja = 1;
-    var bs = new BehaviorSubject();
+    var bs: BehaviorSubject<string> = new BehaviorSubject<string>("");
     nadjiPitanje(idPitanja, bs);
 
     let divZaPolje = document.createElement("div");
@@ -65,25 +72,31 @@ export class Takmicar {
     this.novoPitanje(divZaOdgovore, pitanjeText, idPitanja, bs, labelaZaTimer);
   }
 
-  subscribeKompjuter(divZaOdgovore, pitanjeText, divZaPolje, idPitanja, bs) {
-    bs.subscribe((pitanje) => {
-      pitanje.then((p) => {
+  subscribeKompjuter(
+    divZaOdgovore: HTMLDivElement,
+    pitanjeText: HTMLLabelElement,
+    divZaPolje: HTMLDivElement,
+    idPitanja: number,
+    bs: BehaviorSubject<string>
+  ) {
+    bs.subscribe((pitanje: any) => {
+      pitanje.then((p: any) => {
         this.bsPoeni.next(this.ime + " ima " + this.brPoena + " poena.");
 
         pitanjeText.innerHTML = p.text;
 
-        p.odgovori.forEach((odgovor) => {
+        p.odgovori.forEach((odgovor: any) => {
           var button = document.createElement("button");
           divZaOdgovore.appendChild(button);
           button.innerHTML = odgovor.text;
           button.className = odgovor.id;
         });
         setTimeout(() => {
-          var odgovorPod = parseInt(Math.random() * 4) + 1;
-          var odgovor = p.odgovori.filter((x) => x.id == odgovorPod);
+          let odgovorPod = Math.floor(Math.random() * 4) + 1;
+          var odgovor = p.odgovori.filter((x: any) => x.id == odgovorPod);
           var nadjiDugme = divZaPolje.getElementsByClassName(odgovor[0].id);
           if (odgovor[0].tacno == true) {
-            nadjiDugme[0].style.background = "green";
+            (nadjiDugme[0] as HTMLButtonElement).style.background = "green";
             var br = dodajPoene();
             this.brPoena += br;
             this.bsPlusPoeni.next(
@@ -96,22 +109,22 @@ export class Takmicar {
                 " poena."
             );
           } else {
-            nadjiDugme[0].style.background = "red";
+            (nadjiDugme[0] as HTMLButtonElement).style.background = "red";
           }
         }, Math.random() * 5 * 1000);
       });
     });
   }
   subscribeCovek(
-    divZaOdgovore,
-    pitanjeText,
-    divZaPolje,
-    idPitanja,
-    bs,
-    labelaZaTimer
+    divZaOdgovore: HTMLDivElement,
+    pitanjeText: HTMLLabelElement,
+    divZaPolje: HTMLDivElement,
+    idPitanja: number,
+    bs: BehaviorSubject<string>,
+    labelaZaTimer: HTMLLabelElement
   ) {
-    bs.subscribe((pitanje) => {
-      pitanje.then((p) => {
+    bs.subscribe((pitanje: any) => {
+      pitanje.then((p: any) => {
         odbrojavaj().subscribe(
           (x) =>
             (labelaZaTimer.innerHTML = "Preostalo vreme za ovo pitanje: " + x)
@@ -122,7 +135,7 @@ export class Takmicar {
 
         divZaPolje.className = "divZaPoljeCovek";
 
-        p.odgovori.forEach((odgovor) => {
+        p.odgovori.forEach((odgovor: any) => {
           var button = document.createElement("button");
           divZaOdgovore.appendChild(button);
           button.innerHTML = odgovor.text;
@@ -132,9 +145,9 @@ export class Takmicar {
 
         fromEvent(buttons, "click")
           .pipe(take(1))
-          .subscribe((click) => {
+          .subscribe((click: any) => {
             var nadjenOdgovor = p.odgovori.find(
-              (odgovor) => odgovor.id == click.target.className
+              (odgovor: any) => odgovor.id == click.target.className
             );
             if (nadjenOdgovor.tacno == true) {
               click.target.style.background = "green";
@@ -156,7 +169,13 @@ export class Takmicar {
       });
     });
   }
-  novoPitanje(divZaOdgovore, pitanjeText, idPitanja, bs, labelaZaTimer) {
+  novoPitanje(
+    divZaOdgovore: HTMLDivElement,
+    pitanjeText: HTMLLabelElement,
+    idPitanja: number,
+    bs: BehaviorSubject<string>,
+    labelaZaTimer: HTMLLabelElement
+  ) {
     setTimeout(() => {
       divZaOdgovore.innerHTML = "";
       pitanjeText.innerHTML = "";
