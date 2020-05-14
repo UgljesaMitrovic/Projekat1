@@ -1,0 +1,108 @@
+{
+  "pitanja": [
+    {
+      "id": 1,
+      "text": "Koliko je 1+1",
+      "odgovori": [
+        {
+          "id": 1,
+          "text": "2",
+          "tacno": true
+        },
+        {
+          "id": 2,
+          "text": "3",
+          "tacno": false
+        },
+        {
+          "id": 3,
+          "text": "4",
+          "tacno": false
+        },
+        {
+          "id": 4,
+          "text": "5",
+          "tacno": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Koliko je 1+2",
+      "odgovori": [
+        {
+          "id": 1,
+          "text": "2",
+          "tacno": false
+        },
+        {
+          "id": 2,
+          "text": "3",
+          "tacno": true
+        },
+        {
+          "id": 3,
+          "text": "4",
+          "tacno": false
+        },
+        {
+          "id": 4,
+          "text": "5",
+          "tacno": false
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Koliko je 1+3",
+      "odgovori": [
+        {
+          "id": 1,
+          "text": "2",
+          "tacno": false
+        },
+        {
+          "id": 2,
+          "text": "3",
+          "tacno": false
+        },
+        {
+          "id": 3,
+          "text": "4",
+          "tacno": true
+        },
+        {
+          "id": 4,
+          "text": "5",
+          "tacno": false
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "text": "Koliko je 1+4",
+      "odgovori": [
+        {
+          "id": 1,
+          "text": "2",
+          "tacno": false
+        },
+        {
+          "id": 2,
+          "text": "3",
+          "tacno": false
+        },
+        {
+          "id": 3,
+          "text": "4",
+          "tacno": false
+        },
+        {
+          "id": 4,
+          "text": "5",
+          "tacno": true
+        }
+      ]
+    }
+  ]
+}
